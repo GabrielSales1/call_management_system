@@ -11,8 +11,8 @@
 <body>
     <div class="d-flex">
         <aside class="min-vh-100 bg-dark w-25 p-3 d-flex flex-column">
-            <div class="mb-4 fw-bold text-center text-white fs-3" style="letter-spacing: 1.5px;">
-                <span>Syshelp</span>
+            <div class="mb-4 fw-bold text-center text-white fs-3" style="letter-spacing: 5px;">
+                <span>SYSHELP</span>
                 <hr class="border border-white">
             </div>
             
@@ -28,15 +28,54 @@
                     Dashboard
                 </a>
 
-                <a href="#" class="nav-link text-white fs-5 mb-4">
-                    <i class="fa-regular fa-folder-open"></i>
-                    Gerenciar chamados
-                </a>
+                <div class="accordion border-0 bg-dark mb-4 " id="accordionChamados">
+                    <div class="accordion-item bg-dark border-0 ">
 
-                <a href="#" class="nav-link text-white fs-5 mb-4">
-                    <i class="fa-regular fa-address-card"></i>
-                    Gerenciar usuários
-                </a>
+                        <h2 class="accordion-header dropdown-style">
+                            <button class="nav-link text-white fs-5 d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="collapse"
+                            data-bs-target="#chamadosCollapse"
+                            aria-expanded="false">
+                                <span><i class="fa-regular fa-folder-open me-2"></i> Gerenciar chamados</span>
+                                <i class="fa-solid fa-chevron-down rotate-icon m-2"></i>
+                            </button>
+                        </h2>
+
+                        <div id="chamadosCollapse" class="accordion-collapse collapse ">
+                            <div class="accordion-body bg-dark p-0 ms-4">
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-plus-circle me-2"></i>Abrir chamado</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-list me-2"></i>Listar</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-user-check me-2"></i>Atribuir</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-arrows-rotate me-2"></i>Atualizar status</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-circle-check me-2"></i>Encerrar</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-clock-rotate-left me-2"></i>Histórico</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion border-0 bg-dark mb-4 " id="accordionUser">
+                    <div class="accordion-item bg-dark border-0 ">
+
+                        <h2 class="accordion-header dropdown-style">
+                            <button class="nav-link text-white fs-5 d-flex justify-content-between align-items-center"
+                            type="button" data-bs-toggle="collapse"
+                            data-bs-target="#userCollapse"
+                            aria-expanded="false">
+                                <span><i class="fa-regular fa-address-card"></i> Gerenciar usuários</span>
+                                <i class="fa-solid fa-chevron-down rotate-icon m-2"></i>
+                            </button>
+                        </h2>
+
+                        <div id="userCollapse" class="accordion-collapse collapse ">
+                            <div class="accordion-body bg-dark p-0 ms-4">
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-user-plus me-2"></i>Cadastrar</a>
+                                <a href="#" class="nav-link text-white mb-2"><i class="fa-solid fa-list me-2"></i>Listar usuários</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               </nav>  
             </div>
         </aside>
