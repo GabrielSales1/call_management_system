@@ -1,4 +1,40 @@
 from flask import Flask, render_template,request
+from sqlalchemy import create_engine,Column,String,Integer,DateTime,ForeignKey
+from sqlalchemy.orm import declarative_base, sessionmaker,relationship
+from datetime import datetime
+
+URI = 'mysql+mysqlconnector://root:@localhost:3306/test'
+engine = create_engine(URI)
+Session = sessionmaker(bind=engine)
+
+Base = declarative_base()
+class Chamado(Base):
+    __tablename__ ='chamado'
+    id = Column(Integer,unique=True, primary_key=True, autoincrement=True)
+    titulo = Column(String(50), nullable=False)
+    descricao = Column(String(255), nullable=False)
+    data_abertura = Column(DateTime, nullable=False)
+    data_fechamento = Column(DateTime, nullable=True)
+    status = Column(String(50), nullable=False)
+    prioridade = Column(String(50), nullable=False)
+    categoria = Column(String(50), nullable=False)
+    id_usuario = Column(Integer, ForeignKey('usuario.id'))
+    usuario = relationship("Usuario", back_populates="chamados")
+
+    responsavel_tecnico = Column(String(50), nullable=True)
+
+class Usuario(Base):
+    __tablename__ ='usuario'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False)
+    departamento = Column(String(50), nullable=False)
+    ramal = Column(String(20), nullable=False)
+    status = Column(String(20), nullable=False)
+
+    chamados = relationship("Chamado", back_populates="usuario")
+
+Base.metadata.create_all(engine)
 
 app = Flask(__name__)
 
@@ -16,8 +52,48 @@ def login():
 def index():
     return render_template('index.html')
 
-@app.route('/abrir-chamado')
+@app.route('/chamado/abrir-chamado', methods=['GET', 'POST'])
 def abrirChamado():
+    if request.method == 'POST':
+        session = Session()
+
+        titulo = request.form.get('titulo')
+        descricao = request.form.get('descricao')
+        status = request.form.get('status')
+        prioridade = request.form.get('prioridade')
+        categoria = request.form.get('categoria')
+        tecnico = request.form.get('tecnico')
+
+        # 🔥 PEGANDO AS DATAS
+        data_abertura_str = request.form.get('data_abertura')
+        data_fechamento_str = request.form.get('data_fechamento')
+
+        # 🔥 CONVERTENDO
+        data_abertura = None
+        if data_abertura_str:
+            data_abertura = datetime.strptime(data_abertura_str, "%Y-%m-%d")
+
+        data_fechamento = None
+        if data_fechamento_str:
+            data_fechamento = datetime.strptime(data_fechamento_str, "%Y-%m-%d")
+
+        chamado = Chamado(
+            titulo=titulo,
+            descricao=descricao,
+            status=status,
+            prioridade=prioridade,
+            categoria=categoria,
+            data_abertura=data_abertura,
+            data_fechamento=data_fechamento,
+            id_usuario=1,  # depois você liga com login real
+            responsavel_tecnico=tecnico
+        )
+
+        session.add(chamado)
+        session.commit()
+
+        return render_template('chamados/abrir_chamado.html')
+
     return render_template('chamados/abrir_chamado.html')
 
 @app.route('/atribuir')
@@ -39,7 +115,6 @@ def listarChamado():
 @app.route('/status')
 def statusChamado():
     return render_template('chamados/status.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
