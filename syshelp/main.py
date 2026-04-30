@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,redirect, url_for
 from sqlalchemy import create_engine,Column,String,Integer,DateTime,ForeignKey
 from sqlalchemy.orm import declarative_base, sessionmaker,relationship
 from datetime import datetime
@@ -94,14 +94,17 @@ def salvar():
         categoria=categoria,
         data_abertura=data_abertura,
         data_fechamento=data_fechamento,
-        id_usuario=tecnico,  # depois você liga com login real
-        responsavel_tecnico=tecnico
+        id_usuario=tecnico
     )
     session.add(chamado)
     session.commit()
-    return render_template(
-        'chamados/abrir_chamado.html',
-    )
+    return redirect(url_for('listarChamado'))
+
+@app.route('/chamado/listar')
+def listarChamado():
+    db = Session()
+    chamados = db.query(Chamado).all()
+    return render_template('chamados/listar_chamado.html',chamados=chamados)
 
 @app.route('/atribuir')
 def atribuirChamado():
@@ -115,13 +118,9 @@ def encerrarChamado():
 def historicoChamado():
     return render_template('chamados/historico.html')
 
-@app.route('/listar-chamado')
-def listarChamado():
-    return render_template('chamados/listar_chamado.html')
-
 @app.route('/status')
 def statusChamado():
     return render_template('chamados/status.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,use_reloader=False)
