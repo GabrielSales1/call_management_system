@@ -28,6 +28,7 @@ class Usuario(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
+    senha = Column(String(50), nullable=False)
     departamento = Column(String(50), nullable=False)
     ramal = Column(String(20), nullable=False)
     status = Column(String(20), nullable=False)
@@ -41,60 +42,66 @@ app = Flask(__name__)
 #login "auth"
 @app.route('/login',methods=['GET','POST'])
 def login():
-    email = request.form.get('email')
-    senha = request.form.get('senha')
-    if email == 'admin@gmail.com' and senha == 'admin':
-        return render_template('/index.html')
-    else:
-        return render_template('/login.html')
+    if request.method == 'POST':
+        session = Session()
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        user = session.query(Usuario).filter_by(email=email).first()
+        
+        if user.email == email and user.senha == senha:
+            return render_template('/index.html')
+    return render_template('/login.html')
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/chamado/abrir-chamado', methods=['GET', 'POST'])
+@app.route('/chamado/abrir-chamado', methods=['GET'])
 def abrirChamado():
-    if request.method == 'POST':
-        session = Session()
+    session = Session()
+    users = session.query(Usuario).all()
+    return render_template('chamados/abrir_chamado.html',users=users)
 
-        titulo = request.form.get('titulo')
-        descricao = request.form.get('descricao')
-        status = request.form.get('status')
-        prioridade = request.form.get('prioridade')
-        categoria = request.form.get('categoria')
-        tecnico = request.form.get('tecnico')
+@app.route('/chamado/salvar',methods=['POST'])
+def salvar():
+    session = Session()
 
-        # 🔥 PEGANDO AS DATAS
-        data_abertura_str = request.form.get('data_abertura')
-        data_fechamento_str = request.form.get('data_fechamento')
+    titulo = request.form.get('titulo')
+    descricao = request.form.get('descricao')
+    status = request.form.get('status')
+    prioridade = request.form.get('prioridade')
+    categoria = request.form.get('categoria')
+    tecnico = request.form.get('tecnico')
 
-        # 🔥 CONVERTENDO
-        data_abertura = None
-        if data_abertura_str:
-            data_abertura = datetime.strptime(data_abertura_str, "%Y-%m-%d")
+    #PEGANDO AS DATAS
+    data_abertura_str = request.form.get('data_abertura')
+    data_fechamento_str = request.form.get('data_fechamento')
 
-        data_fechamento = None
-        if data_fechamento_str:
-            data_fechamento = datetime.strptime(data_fechamento_str, "%Y-%m-%d")
+    #CONVERTENDO
+    data_abertura = None
+    if data_abertura_str:
+        data_abertura = datetime.strptime(data_abertura_str, "%Y-%m-%d")
 
-        chamado = Chamado(
-            titulo=titulo,
-            descricao=descricao,
-            status=status,
-            prioridade=prioridade,
-            categoria=categoria,
-            data_abertura=data_abertura,
-            data_fechamento=data_fechamento,
-            id_usuario=1,  # depois você liga com login real
-            responsavel_tecnico=tecnico
-        )
+    data_fechamento = None
+    if data_fechamento_str:
+        data_fechamento = datetime.strptime(data_fechamento_str, "%Y-%m-%d")
 
-        session.add(chamado)
-        session.commit()
-
-        return render_template('chamados/abrir_chamado.html')
-
-    return render_template('chamados/abrir_chamado.html')
+    chamado = Chamado(
+        titulo=titulo,
+        descricao=descricao,
+        status=status,
+        prioridade=prioridade,
+        categoria=categoria,
+        data_abertura=data_abertura,
+        data_fechamento=data_fechamento,
+        id_usuario=tecnico,  # depois você liga com login real
+        responsavel_tecnico=tecnico
+    )
+    session.add(chamado)
+    session.commit()
+    return render_template(
+        'chamados/abrir_chamado.html',
+    )
 
 @app.route('/atribuir')
 def atribuirChamado():
