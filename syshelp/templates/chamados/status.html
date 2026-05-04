@@ -1,13 +1,82 @@
 {% extends "layout.html" %}
 {% block content %}
-        <main class="context px-3 py-4">
-          <div class="container-fluid">
-            <div class="mb-3">
-              <h3 class="fw-bold fs-4 mb-3">Status</h3>
-              <div class="row">
+<main class="context px-3 py-4">
+  <div class="container-fluid">
+    <div class="mb-3">
+      <h3 class="fw-bold fs-4 mb-3">Atualizar</h3>
+      <div class="row">
+        <table id="tabela" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Titulo</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Data de Abertura</th>
+              <th scope="col">Data de Fechamento</th>
+              <th scope="col">Status</th>
+              <th scope="col">Prioridade</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Técnico Encarregado</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for chamado in chamados %}
+            <tr>
+              <td>{{chamado.titulo}}</td>
+              <td>{{chamado.descricao}}</td>
+              <td>{{ chamado.data_abertura.strftime("%d/%m/%Y") if chamado.data_abertura else "-" }}</td>
+              <td>{{ chamado.data_fechamento.strftime("%d/%m/%Y") if chamado.data_fechamento else "-" }}</td>
+              <td>{% if chamado.status == 'aberto' %}
+                <span class="badge bg-primary">Aberto</span>
 
-              </div>
-            </div>
-          </div>
-        </main>
+                {% elif chamado.status == 'atendimento' %}
+                <span class="badge bg-warning text-dark">Em Atendimento</span>
+
+                {% elif chamado.status == 'resolvido' %}
+                <span class="badge bg-success">Resolvido</span>
+
+                {% elif chamado.status == 'fechado' %}
+                <span class="badge bg-secondary">Fechado</span>
+
+                {% else %}
+                <span class="badge bg-dark">Indefinido</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if chamado.prioridade == 'alta' %}
+                <span class="badge bg-danger">Alta</span>
+
+                {% elif chamado.prioridade == 'critica' %}
+                <span class="badge bg-dark">Crítica</span>
+
+                {% elif chamado.prioridade == 'media' %}
+                <span class="badge bg-warning text-dark">Média</span>
+
+                {% elif chamado.prioridade == 'baixa' %}
+                <span class="badge bg-info text-dark">Baixa</span>
+
+                {% else %}
+                <span class="badge bg-secondary">Não informado</span>
+                {% endif %}
+              </td>
+              <td style="text-transform: uppercase;">{{chamado.categoria}}</td>
+              <td>{{chamado.usuario.nome}}</td>
+              <td class="text-center">
+                <a href="{{url_for('alterarChamado')}}" class="action-btn me-1 text-primary">
+                  <i class="lni lni-pencil-1 fs-5"></i>
+                </a>
+
+                <form action="{{ url_for('deletarChamado', id=chamado.id) }}" method="POST" style="display:inline;">
+                  <button type="submit" class="action-btn text-danger" onclick="return confirm('Excluir chamado?')">
+                    <i class="lni lni-trash-3 fs-5"></i>
+                  </button>
+                </form>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
 {% endblock %}

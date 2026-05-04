@@ -212,6 +212,33 @@ tr.highlight th{
     padding: 1rem .875rem;
 }
 
+.table tbody tr {
+    border-bottom: 6px solid #f8f9fa;
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    --bs-table-accent-bg: #f5f7fa;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.45em 0.65em;
+    border-radius: 8px;
+}
+
+.table td {
+    vertical-align: middle !important;
+}
+
+.table tbody tr:hover {
+    background-color: #eef2ff !important;
+    cursor: pointer;
+}
 @media (min-width: 768px){
 
     .navbar form{

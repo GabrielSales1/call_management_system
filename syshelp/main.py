@@ -106,21 +106,33 @@ def listarChamado():
     chamados = db.query(Chamado).all()
     return render_template('chamados/listar_chamado.html',chamados=chamados)
 
-@app.route('/atribuir')
-def atribuirChamado():
-    return render_template('chamados/atribuir_chamado.html')
+@app.route('/chamado/status')
+def statusChamado():
+    db = Session()
+    chamados = db.query(Chamado).all()
+    return render_template('chamados/status.html',chamados=chamados)
 
-@app.route('/encerrar')
-def encerrarChamado():
-    return render_template('chamados/encerrar.html')
+@app.route('/chamado/status/alterar')
+def alterarChamado():
+    return render_template('chamados/alterar_chamado.html')
 
-@app.route('/historico')
+@app.route('/chamado/status/deletar/<int:id>', methods=['POST'])
+def deletarChamado(id):
+    db = Session()
+    
+    chamado = db.query(Chamado).filter(Chamado.id == id).first()
+
+    if not chamado:
+        return "Chamado não encontrado", 404
+
+    db.delete(chamado)
+    db.commit()
+    return redirect(url_for('statusChamado'))
+
+@app.route('/chamado/historico')
 def historicoChamado():
     return render_template('chamados/historico.html')
 
-@app.route('/status')
-def statusChamado():
-    return render_template('chamados/status.html')
 
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False)
