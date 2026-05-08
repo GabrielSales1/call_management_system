@@ -112,9 +112,33 @@ def statusChamado():
     chamados = db.query(Chamado).all()
     return render_template('chamados/status.html',chamados=chamados)
 
-@app.route('/chamado/status/alterar')
-def alterarChamado():
-    return render_template('chamados/alterar_chamado.html')
+@app.route('/chamado/status/alterar/<int:id>', methods=['GET'])
+def alterarChamado(id):
+    db = Session()
+    chamado = db.query(Chamado).filter_by(id=id).first()
+    usuario = db.query(Usuario).all()
+    return render_template('chamados/alterar_chamado.html',chamado=chamado, usuario=usuario)
+
+@app.route('/chamado/status/salvar/<int:id>',methods=['POST'])
+def salvarAlteracao(id):
+    db = Session()
+    chamado = db.query(Chamado).filter_by(id=id).first()
+    chamado.titulo = request.form.get('titulo')
+    chamado.descricao = request.form.get('descricao')
+    chamado.status = request.form.get('status')
+    chamado.prioridade = request.form.get('prioridade')
+    chamado.categoria = request.form.get('categoria')
+    chamado.id_usuario = request.form.get('tecnico')
+
+    data_abertura_str = request.form.get('data_abertura')
+    data_fechamento_str = request.form.get('data_fechamento')
+
+    chamado.data_abertura = datetime.strptime(data_abertura_str, "%Y-%m-%d") if data_abertura_str else None
+    chamado.data_fechamento = datetime.strptime(data_fechamento_str, "%Y-%m-%d") if data_fechamento_str else None
+
+    db.commit()
+    db.close()
+    return redirect(url_for('listarChamado'))
 
 @app.route('/chamado/status/deletar/<int:id>', methods=['POST'])
 def deletarChamado(id):

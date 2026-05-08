@@ -5,72 +5,83 @@
         <div class="mb-3">
             <div class="row">
                 <h3 class="fw-bold fs-4 mb-3">Alterar Chamado</h3>
-                <form class="row g-3" method="post" action="{{url_for('salvar')}}">
+
+                <form method="post" class="row g-3" action="{{ url_for('salvarAlteracao', id=chamado.id) }}">
+                    <input type="hidden" name="id" value="{{ chamado.id }}">
                     <div class="col-md-12">
                         <label for="titulo" class="form-label">Titulo <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="titulo" name="titulo">
+                        <input type="text" class="form-control" id="titulo" name="titulo"
+                            value="{{ chamado.titulo }}">
                     </div>
+
                     <div class="col-md-12">
                         <label for="descricao" class="form-label">Descrição <span class="text-danger">*</span></label>
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Descrição" id="descricao" name="descricao"
-                                style="height: 100px"></textarea>
+                            <textarea class="form-control" id="descricao" name="descricao"
+                                style="height:100px">{{ chamado.descricao }}</textarea>
                             <label for="descricao">Descrição</label>
                         </div>
                     </div>
+
                     <div class="col-6">
-                        <label for="data-abertura" class="form-label">Data de Abertura</label>
-                        <input type="date" class="form-control" id="data_abertura" name="data_abertura">
+                        <label for="data_abertura" class="form-label">Data de Abertura</label>
+                        <input type="date" class="form-control" id="data_abertura" name="data_abertura"
+                            value="{{ chamado.data_abertura.strftime('%Y-%m-%d') if chamado.data_abertura else '' }}">
                     </div>
+
                     <div class="col-6">
-                        <label for="data-fechamento" class="form-label">Data de Fechamento</label>
-                        <input type="date" class="form-control" id="data_fechamento" name="data_fechamento">
+                        <label for="data_fechamento" class="form-label">Data de Fechamento</label>
+                        <input type="date" class="form-control" id="data_fechamento" name="data_fechamento"
+                            value="{{ chamado.data_fechamento.strftime('%Y-%m-%d') if chamado.data_fechamento else '' }}">
                     </div>
+          
                     <div class="col-md-4">
                         <label for="status" class="form-label">Status</label>
                         <select id="status" name="status" class="form-select">
-                            <option selected>Escolha...</option>
-                            <option value="aberto">Aberto</option>
-                            <option value="atendimento">Em Atendimento</option>
-                            <option value="resolvido">Resolvido</option>
-                            <option value="fechado">Fechado</option>
+                            <option value="aberto"      {% if chamado.status == 'aberto' %}selected{% endif %}>Aberto</option>
+                            <option value="atendimento" {% if chamado.status == 'atendimento' %}selected{% endif %}>Em Atendimento</option>
+                            <option value="resolvido"   {% if chamado.status == 'resolvido' %}selected{% endif %}>Resolvido</option>
+                            <option value="fechado"     {% if chamado.status == 'fechado' %}selected{% endif %}>Fechado</option>
                         </select>
                     </div>
+
                     <div class="col-md-4">
                         <label for="prioridade" class="form-label">Prioridade</label>
                         <select id="prioridade" name="prioridade" class="form-select">
-                            <option selected>Escolha...</option>
-                            <option value="baixa">Baixa</option>
-                            <option value="media">Média</option>
-                            <option value="alta">Alta</option>
-                            <option value="critica">Crítica</option>
+                            <option value="baixa"   {% if chamado.prioridade == 'baixa' %}selected{% endif %}>Baixa</option>
+                            <option value="media"   {% if chamado.prioridade == 'media' %}selected{% endif %}>Média</option>
+                            <option value="alta"    {% if chamado.prioridade == 'alta' %}selected{% endif %}>Alta</option>
+                            <option value="critica" {% if chamado.prioridade == 'critica' %}selected{% endif %}>Crítica</option>
                         </select>
                     </div>
 
                     <div class="col-md-4">
                         <label for="categoria" class="form-label">Categoria</label>
                         <select id="categoria" name="categoria" class="form-select">
-                            <option selected>Escolha...</option>
-                            <option value="hardware">Hardware</option>
-                            <option value="software">Software</option>
-                            <option value="rede">Rede</option>
-                            <option value="acesso">Acesso</option>
-                            <option value="outro">Outros</option>
+                            <option value="hardware" {% if chamado.categoria == 'hardware' %}selected{% endif %}>Hardware</option>
+                            <option value="software" {% if chamado.categoria == 'software' %}selected{% endif %}>Software</option>
+                            <option value="rede"     {% if chamado.categoria == 'rede' %}selected{% endif %}>Rede</option>
+                            <option value="acesso"   {% if chamado.categoria == 'acesso' %}selected{% endif %}>Acesso</option>
+                            <option value="outro"    {% if chamado.categoria == 'outro' %}selected{% endif %}>Outros</option>
                         </select>
                     </div>
+
                     <div class="col-md-6">
                         <label for="tecnico" class="form-label">Técnico Encarregado</label>
                         <select id="tecnico" name="tecnico" class="form-select">
-
-                            <option selected>Escolha...</option>
-                            {% for user in users %}
-                            <option value="{{ user.id }}">{{ user.nome }}</option>
+                            {% for user in usuario %}
+                                <option value="{{ user.id }}" 
+                                        {% if chamado.id_usuario == user.id %}selected{% endif %}>
+                                    {{ user.nome }}
+                                </option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-12 d-grid">
+
+                    <div class="col-12 d-grid mt-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>
+
                 </form>
             </div>
         </div>

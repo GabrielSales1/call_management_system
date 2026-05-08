@@ -239,6 +239,10 @@ tr.highlight th{
     background-color: #eef2ff !important;
     cursor: pointer;
 }
+
+form .action-btn {
+    border: hidden;
+}
 @media (min-width: 768px){
 
     .navbar form{

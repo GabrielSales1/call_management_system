@@ -62,10 +62,11 @@
               <td style="text-transform: uppercase;">{{chamado.categoria}}</td>
               <td>{{chamado.usuario.nome}}</td>
               <td class="text-center">
-                <a href="{{url_for('alterarChamado')}}" class="action-btn me-1 text-primary">
+                <form action="{{ url_for('alterarChamado', id=chamado.id) }}" method="POST" style="display:inline;">
+                <a href="{{url_for('alterarChamado', id=chamado.id)}}" class="action-btn me-1 text-primary">
                   <i class="lni lni-pencil-1 fs-5"></i>
                 </a>
-
+              </form>
                 <form action="{{ url_for('deletarChamado', id=chamado.id) }}" method="POST" style="display:inline;">
                   <button type="submit" class="action-btn text-danger" onclick="return confirm('Excluir chamado?')">
                     <i class="lni lni-trash-3 fs-5"></i>
