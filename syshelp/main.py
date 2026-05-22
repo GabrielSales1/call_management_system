@@ -1,7 +1,6 @@
 from flask import Flask, render_template,request
 from db import Session
-from models.chamado_model import *
-from models.usuario_model import *
+
 
 
 app = Flask(__name__)
@@ -22,6 +21,9 @@ def login():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+from controllers.chamado_controller import *
+from controllers.usuario_controller import *
 
 if __name__ == '__main__':
     app.run(debug=True,use_reloader=False)

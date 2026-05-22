@@ -106,20 +106,20 @@
                 data-bs-parent="#sidebar"
               >
                 <li class="sidebar-item">
-                  <a href="#" class="sidebar-link">Cadastrar</a>
+                  <a href="{{url_for('cadastrar_usuario')}}" class="sidebar-link">Cadastrar</a>
                 </li>
                 <li class="sidebar-item">
-                  <a href="#" class="sidebar-link">Listar</a>
-                </li>
-                </li>
-                <li class="sidebar-item">
-                  <a href="#" class="sidebar-link">Permissões</a>
-                </li>
-                </li>
+                  <a href="{{url_for('listar_usuario')}}" class="sidebar-link">Listar</a>
                 </li>
                 </li>
                 <li class="sidebar-item">
-                  <a href="#" class="sidebar-link">Histórico</a>
+                  <a href="{{url_for('permissoes_usuario')}}" class="sidebar-link">Permissões</a>
+                </li>
+                </li>
+                </li>
+                </li>
+                <li class="sidebar-item">
+                  <a href="{{url_for('historico_usuario')}}" class="sidebar-link">Histórico</a>
                 </li>
                 </li>
               </ul>

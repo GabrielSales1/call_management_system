@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+<main class="context px-3 py-4">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <h3 class="fw-bold fs-4 mb-3">Cadastrar Usuario</h3>
+            <form class="row g-3" method="post" action="{{url_for('salvar')}}">
+                <div class="col-md-12">
+                    <label class="form-label">Nome <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nome_usuario" name="nome_usuario">
+                </div>  
+                <div class="col-md-12">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="email_usuario" name="email_usuario">
+                </div>  
+                <div class="col-md-6">
+                    <label class="form-label">Departameto <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="departamento_usuario" name="departamento_usuario">
+                </div> 
+                <div class="col-md-6">
+                    <label class="form-label">Ramal <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="ramal_usuario" name="ramal_usuario">
+                </div> 
+                <div class="col-md-6">
+                    <label class="form-label">Senha <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="senha_usuario" name="senha_usuario">
+                </div>  
+                <div class="col-md-6">
+                    <label class="form-label">Confirmar Senha <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="senha_usuario_confirm" name="senha_usuario_confirm">
+                </div> 
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                    <select id="status" name="status" class="form-select">
+                        <option selected>Escolha...</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="offline">Offline</option>
+                        <option value="ferias">Em Férias</option>
+                        <option value="desativado">Desativado</option>
+                    </select>
+                </div>
+                <div class="col-12 d-grid">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
