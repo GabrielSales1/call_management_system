@@ -1,3 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
+<main class="context px-3 py-4">
+    <div class="container-fluid">
+        <div class="mb-3 shadow p-3">
+            <h3 class="fw-bold fs-4 mb-3">Listar usuarios</h3>
+            <div class="row table-responsive">
+                <table id="tabela" class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Departameto</th>
+                            <th>Ramal</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{user.nome}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.departamento}}</td>
+                            <td>{{user.ramal}}
+                            </td>
+                            <td>{% if user.status == 'ativo' %}
+                                <span class="badge bg-success">Ativo</span>
+
+                                {% elif user.status == 'offline' %}
+                                <span class="badge bg-dark text-light">Offline</span>
+
+                                {% elif user.status == 'ferias' %}
+                                <span class="badge bg-info text-dark">Em Férias</span>
+
+                                {% else %}
+                                <span class="badge bg-light">Desativado</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

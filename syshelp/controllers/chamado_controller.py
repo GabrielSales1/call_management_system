@@ -104,4 +104,6 @@ def deletarChamado(id):
 
 @app.route('/chamado/historico')
 def historicoChamado():
-    return render_template('chamados/historico.html')
+    db = Session()
+    chamados = db.query(Chamado).filter(Chamado.data_fechamento != None and Chamado.status == 'fechado').all()
+    return render_template('chamados/historico.html', chamados=chamados)

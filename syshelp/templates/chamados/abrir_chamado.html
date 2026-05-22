@@ -7,19 +7,19 @@
             <form class="row g-3" method="post" action="{{url_for('salvar')}}">
                 <div class="col-md-12">
                     <label for="titulo" class="form-label">Titulo <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="titulo" name="titulo">
+                    <input type="text" class="form-control" id="titulo" name="titulo" required>
                 </div>
                 <div class="col-md-12">
                     <label for="descricao" class="form-label">Descrição <span class="text-danger">*</span></label>
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Descrição" id="descricao" name="descricao"
-                            style="height: 100px"></textarea>
+                            style="height: 100px" required></textarea>
                         <label for="descricao">Descrição</label>
                     </div>
                 </div>
                 <div class="col-6">
                     <label for="data-abertura" class="form-label">Data de Abertura <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" id="data_abertura" name="data_abertura">
+                    <input type="date" class="form-control" id="data_abertura" name="data_abertura" required>
                 </div>
                 <div class="col-6">
                     <label for="data-fechamento" class="form-label">Data de Fechamento</label>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                    <select id="status" name="status" class="form-select">
+                    <select id="status" name="status" class="form-select" required>
                         <option selected>Escolha...</option>
                         <option value="aberto">Aberto</option>
                         <option value="atendimento">Em Atendimento</option>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="prioridade" class="form-label">Prioridade <span class="text-danger">*</span></label>
-                    <select id="prioridade" name="prioridade" class="form-select">
+                    <select id="prioridade" name="prioridade" class="form-select" required>
                         <option selected>Escolha...</option>
                         <option value="baixa">Baixa</option>
                         <option value="media">Média</option>
@@ -48,7 +48,7 @@
 
                 <div class="col-md-4">
                     <label for="categoria" class="form-label">Categoria <span class="text-danger">*</span></label>
-                    <select id="categoria" name="categoria" class="form-select">
+                    <select id="categoria" name="categoria" class="form-select" required>
                         <option selected>Escolha...</option>
                         <option value="hardware">Hardware</option>
                         <option value="software">Software</option>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="tecnico" class="form-label">Técnico Encarregado <span class="text-danger">*</span></label>
-                    <select id="tecnico" name="tecnico" class="form-select">
+                    <select id="tecnico" name="tecnico" class="form-select" required>
 
                         <option selected>Escolha...</option>
                         {% for user in users %}

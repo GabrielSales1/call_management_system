@@ -4,34 +4,34 @@
     <div class="container-fluid">
         <div class="mb-3">
             <h3 class="fw-bold fs-4 mb-3">Cadastrar Usuario</h3>
-            <form class="row g-3" method="post" action="{{url_for('salvar')}}">
+            <form class="row g-3" method="post" action="{{url_for('salvar_usuario')}}">
                 <div class="col-md-12">
                     <label class="form-label">Nome <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="nome_usuario" name="nome_usuario">
+                    <input type="text" maxlength="150" class="form-control" id="nome_usuario" name="nome_usuario" required>
                 </div>  
                 <div class="col-md-12">
                     <label class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="email_usuario" name="email_usuario">
+                    <input type="email" maxlength="100" class="form-control" id="email_usuario" name="email_usuario" required>
                 </div>  
                 <div class="col-md-6">
                     <label class="form-label">Departameto <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="departamento_usuario" name="departamento_usuario">
+                    <input type="text" maxlength="100" class="form-control" id="departamento_usuario" name="departamento_usuario" required>
                 </div> 
                 <div class="col-md-6">
                     <label class="form-label">Ramal <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="ramal_usuario" name="ramal_usuario">
+                    <input type="text" maxlength="4" class="form-control" id="ramal_usuario" name="ramal_usuario" required>
                 </div> 
                 <div class="col-md-6">
                     <label class="form-label">Senha <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="senha_usuario" name="senha_usuario">
+                    <input type="password" maxlength="45" class="form-control" id="senha_usuario" name="senha_usuario" required>
                 </div>  
                 <div class="col-md-6">
                     <label class="form-label">Confirmar Senha <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="senha_usuario_confirm" name="senha_usuario_confirm">
+                    <input type="password" maxlength="45" class="form-control" id="senha_usuario_confirm" name="senha_usuario_confirm" required>
                 </div> 
                 <div class="col-md-4">
                     <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                    <select id="status" name="status" class="form-select">
+                    <select id="status" name="status" class="form-select" required>
                         <option selected>Escolha...</option>
                         <option value="ativo">Ativo</option>
                         <option value="offline">Offline</option>
