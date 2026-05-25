@@ -1,8 +1,6 @@
 from flask import Flask, render_template,request
 from db import Session
 
-
-
 app = Flask(__name__)
 
 #login "auth"
