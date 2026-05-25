@@ -127,10 +127,10 @@ def relatorioChamado(id):
         pdf.add_page()
         
         pdf.set_font("Helvetica", style="B", size=20)
-        pdf.set_text_color(44, 62, 80) # Azul escuro corporativo
+        pdf.set_text_color(44, 62, 80)
         pdf.cell(0, 12, txt=f"FICHA DO CHAMADO #{chamado.id}", align="R", new_x="LMARGIN", new_y="NEXT")
 
-        pdf.set_draw_color(52, 152, 219) # Azul claro
+        pdf.set_draw_color(52, 152, 219)
         pdf.set_line_width(0.5)
         pdf.line(10, pdf.get_y(), 200, pdf.get_y())
         pdf.ln(8)
@@ -146,11 +146,11 @@ def relatorioChamado(id):
 
         def criar_bloco(label, valor, largura_total=190, multi=False):
             pdf.set_font("Helvetica", style="B", size=10)
-            pdf.set_text_color(127, 140, 141) # Cinza médio
+            pdf.set_text_color(127, 140, 141) 
             pdf.cell(largura_total, 5, label, new_x="LMARGIN", new_y="NEXT")
             
             pdf.set_font("Helvetica", size=11)
-            pdf.set_text_color(44, 62, 80) # Azul escuro
+            pdf.set_text_color(44, 62, 80) 
             
             if multi:
                 pdf.set_fill_color(248, 249, 250)
