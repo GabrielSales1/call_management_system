@@ -1,3 +1,52 @@
 {% extends "layout.html" %}
 {% block content %}
+<main class="context px-3 py-4">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <h3 class="fw-bold fs-4 mb-3">Historico de Usuarios</h3>
+            <div class="row">
+                <table id="tabela" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Departamento</th>
+                            <th scope="col">Ramal</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>{{u.nome}}</td>
+                            <td>{{u.email}}</td>
+                            <td>{{u.departamento}}</td>
+                            <td>{{u.ramal}}</td>
+                            <td>{% if u.status == 'ativo' %}
+                                <span class="badge bg-success">Ativo</span>
+
+                                {% elif u.status == 'offline' %}
+                                <span class="badge bg-dark text-light">Offline</span>
+
+                                {% elif u.status == 'ferias' %}
+                                <span class="badge bg-info text-dark">Em Férias</span>
+
+                                {% else %}
+                                <span class="badge text-bg-secondary">Desativado</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{url_for('relatorioUsuario', id=u.id) }}" target="_blank"><img
+                                        src="{{url_for('static',filename='img/relatorio-pdf-icon.svg')}}" width="40"
+                                        height="40" alt="pdf-relatorio"></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

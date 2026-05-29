@@ -1,7 +1,10 @@
-from flask import render_template,request,redirect,url_for
+from flask import render_template,request,redirect,url_for,make_response
 from main import app
 from db import *
 from models.usuario_model import *
+from models.chamado_model import *
+import io
+from fpdf import *
 
 @app.route('/usuario/cadastro', methods=['GET'])
 def cadastrar_usuario():
@@ -49,4 +52,99 @@ def permissoes_usuario():
 
 @app.route('/usuario/historico')
 def historico_usuario():
-    return render_template('usuarios/historico_usuario.html')
+    db = Session()
+    users = db.query(Usuario).all()
+    if not users:
+        print("Usuarios vazio!")
+        return render_template('chamados/historico.html', users=[])
+    else:
+        return render_template('usuarios/historico_usuario.html', users=users)
+
+@app.route('/usuario/historico/relatorio/<int:id>')
+def relatorioUsuario(id):
+    db = Session()
+    try:    
+        # 1. Busca o usuário no banco de dados
+        usuario = db.query(Usuario).filter_by(id=id).first()
+        if not usuario:
+            return "Usuario não encontrado", 404
+        
+        # 2. Busca todos os chamados atrelados a esse usuário
+        chamados = db.query(Chamado).filter_by(id_usuario=id).all()
+    
+        # 3. Configura o documento PDF
+        pdf = FPDF(orientation='P', unit='mm', format='A4')
+        pdf.set_auto_page_break(auto=True, margin=20)
+        pdf.add_page()
+
+        # Cabeçalho do Relatório
+        pdf.set_font("Helvetica", style="B", size=20)
+        pdf.set_text_color(44, 62, 80)
+        pdf.cell(0, 12, txt=f"FICHA DO USUÁRIO #{usuario.id}", align="R", new_x="LMARGIN", new_y="NEXT")
+        
+        pdf.ln(5)
+
+        # Informações do Usuário (Bloco de Dados)
+        pdf.set_font("Helvetica", "", 12)
+        pdf.set_text_color(0, 0, 0)
+        pdf.cell(0, 8, txt=f"Nome: {usuario.nome}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, txt=f"Email: {usuario.email}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, txt=f"Departamento: {usuario.departamento}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, txt=f"Status: {usuario.status}", new_x="LMARGIN", new_y="NEXT")
+
+        pdf.ln(10)
+        
+        # Título da Seção da Tabela
+        pdf.set_font("Helvetica", "B", 16)
+        pdf.set_text_color(44, 62, 80)
+        pdf.cell(0, 10, txt=f"Histórico de Chamados ({len(chamados)})", new_x="LMARGIN", new_y="NEXT")
+        pdf.ln(3)
+
+        # 4. Criação da estrutura de dados para a Tabela do FPDF2
+        pdf.set_font("Helvetica", "", 10)
+        
+        # Primeira linha será o cabeçalho da tabela
+        dados_tabela = [
+            ["Título / Descrição", "Status", "Prioridade", "Categoria", "Abertura"]
+        ]
+        
+        # Loop para preencher a lista de dados (NÃO fecha o PDF aqui dentro!)
+        for chamado in chamados:
+            # Formata a data caso seja um objeto nativo do Python (DateTime)
+            data_str = chamado.data_abertura.strftime('%d/%m/%Y %H:%M') if chamado.data_abertura else ""
+            
+            # Junta o Título e a Descrição usando quebra de linha (\n) para organizar o espaço
+            info_chamado = f"{chamado.titulo}\nDesc: {chamado.descricao}"
+            
+            dados_tabela.append([
+                info_chamado,
+                str(chamado.status),
+                str(chamado.prioridade),
+                str(chamado.categoria),
+                data_str
+            ])
+
+        # 5. Renderiza a tabela de forma automática no PDF (Fora do loop anterior)
+        # Largura total das colunas somam 190mm (área útil da folha A4)
+        with pdf.table(col_widths=(65, 25, 25, 30, 45), text_align="LEFT") as tabela:
+            for linha in dados_tabela:
+                row = tabela.row()
+                for celula in linha:
+                    row.cell(celula)
+
+        # 6. Finaliza o documento e prepara a resposta para o navegador
+        pdf_buffer = io.BytesIO()
+        pdf.output(pdf_buffer)
+        pdf_buffer.seek(0)
+        
+        response = make_response(pdf_buffer.getvalue())
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = f'inline; filename=usuario_{id}.pdf'
+        
+        return response
+
+    except Exception as e:
+        return f"Erro ao gerar relatório: {str(e)}", 500
+
+    finally:
+        db.close()

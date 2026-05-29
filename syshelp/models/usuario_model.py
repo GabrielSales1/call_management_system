@@ -12,3 +12,4 @@ class Usuario(Base):
 
     chamados = relationship("Chamado", back_populates="usuario")
 
+Base.metadata.create_all(engine)

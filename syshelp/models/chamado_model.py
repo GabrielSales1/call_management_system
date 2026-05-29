@@ -12,3 +12,5 @@ class Chamado(Base):
     categoria = Column(String(50), nullable=False)
     id_usuario = Column(Integer, ForeignKey('usuario.id'))
     usuario = relationship("Usuario", back_populates="chamados")
+
+Base.metadata.create_all(engine)
