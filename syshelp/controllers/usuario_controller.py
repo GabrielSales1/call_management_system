@@ -7,11 +7,13 @@ import io
 from fpdf import *
 
 @app.route('/usuario/cadastro', methods=['GET'])
+@login_required
 def cadastrar_usuario():
     if request.method == 'GET':
         return render_template('usuarios/cadastrar_usuario.html')
 
 @app.route('/usuario/salvar',methods=['POST'])
+@login_required
 def salvar_usuario():
     if request.method == 'POST':
         db = Session()
@@ -41,16 +43,19 @@ def salvar_usuario():
             return redirect(url_for('cadastrar_usuario'))
 
 @app.route('/usuario/listar')
+@login_required
 def listar_usuario():
     db = Session()
     users = db.query(Usuario).all()
     return render_template('usuarios/listar_usuario.html',users=users)
 
 @app.route('/usuario/permissoes')
+@login_required
 def permissoes_usuario():
     return render_template('usuarios/permissoes_usuario.html')
 
 @app.route('/usuario/historico')
+@login_required
 def historico_usuario():
     db = Session()
     users = db.query(Usuario).all()
@@ -61,6 +66,7 @@ def historico_usuario():
         return render_template('usuarios/historico_usuario.html', users=users)
 
 @app.route('/usuario/historico/relatorio/<int:id>')
+@login_required
 def relatorioUsuario(id):
     db = Session()
     try:    

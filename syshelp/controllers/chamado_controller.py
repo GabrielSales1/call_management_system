@@ -8,12 +8,14 @@ from datetime import datetime
 from fpdf import * 
 
 @app.route('/chamado/abrir-chamado', methods=['GET'])
+@login_required
 def abrirChamado():
     session = Session()
     users = session.query(Usuario).all()
     return render_template('chamados/abrir_chamado.html',users=users)
 
 @app.route('/chamado/salvar',methods=['POST'])
+@login_required
 def salvar():
     session = Session()
 
@@ -52,18 +54,21 @@ def salvar():
     return redirect(url_for('listarChamado'))
 
 @app.route('/chamado/listar')
+@login_required
 def listarChamado():
     db = Session()
     chamados = db.query(Chamado).all()
     return render_template('chamados/listar_chamado.html',chamados=chamados)
 
 @app.route('/chamado/status')
+@login_required
 def statusChamado():
     db = Session()
     chamados = db.query(Chamado).all()
     return render_template('chamados/status.html',chamados=chamados)
 
 @app.route('/chamado/status/alterar/<int:id>', methods=['GET'])
+@login_required
 def alterarChamado(id):
     db = Session()
     chamado = db.query(Chamado).filter_by(id=id).first()
@@ -71,6 +76,7 @@ def alterarChamado(id):
     return render_template('chamados/alterar_chamado.html',chamado=chamado, usuario=usuario)
 
 @app.route('/chamado/status/salvar/<int:id>',methods=['POST'])
+@login_required
 def salvarAlteracao(id):
     db = Session()
     chamado = db.query(Chamado).filter_by(id=id).first()
@@ -92,6 +98,7 @@ def salvarAlteracao(id):
     return redirect(url_for('listarChamado'))
 
 @app.route('/chamado/status/deletar/<int:id>', methods=['POST'])
+@login_required
 def deletarChamado(id):
     db = Session()
     
@@ -105,6 +112,7 @@ def deletarChamado(id):
     return redirect(url_for('statusChamado'))
 
 @app.route('/chamado/historico')
+@login_required
 def historicoChamado():
     db = Session()
     chamados = db.query(Chamado).filter(Chamado.data_fechamento != None, Chamado.status.in_(['resolvido','fechado'])).all()
@@ -115,6 +123,7 @@ def historicoChamado():
         return render_template('chamados/historico.html', chamados=chamados)
 
 @app.route('/chamado/historico/relatorio/pdf/<int:id>')
+@login_required
 def relatorioChamado(id):
     db = Session()
     try:

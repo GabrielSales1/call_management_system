@@ -1,6 +1,7 @@
 from db import *
+from flask_login import *
 
-class Usuario(Base):
+class Usuario(Base,UserMixin):
     __tablename__ ='usuario'
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(50), nullable=False)
