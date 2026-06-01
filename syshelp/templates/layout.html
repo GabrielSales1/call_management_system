@@ -43,7 +43,7 @@
 
         <ul class="sidebar-nav">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{url_for('perfil_usuario')}}" class="sidebar-link">
               <i class="lni lni-user-4"></i>
               <span>Perfil</span>
             </a>
@@ -150,8 +150,8 @@
                   <img src="{{url_for('static', filename='img/account.png')}}" class="avatar img-fluid" alt="perfil" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-end rounded">
-                  <a href="#" class="dropdown-item">
-                    <span>Configurações</span>
+                  <a href="{{url_for('perfil_usuario')}}" class="dropdown-item">
+                    <span>Perfil</span>
                   </a>
               </li>
             </ul>

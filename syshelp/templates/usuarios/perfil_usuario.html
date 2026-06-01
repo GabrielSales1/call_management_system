@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<main class="context px-3 py-4">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <h3 class="fw-bold fs-4 mb-3">Perfil</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="{{url_for('static', filename='img/account.png')}}"
+                        class="img-fluid float-start rounded w-25" alt="foto-perfil" />
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome_usuario" name="nome_usuario" value="{{usuario.nome}}" readonly>
+                </div>  
+                <div class="col-md-12">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email_usuario" name="email_usuario" value="{{usuario.email}}" readonly>
+                </div>  
+                <div class="col-md-6">
+                    <label class="form-label">Departameto</label>
+                    <input type="text" class="form-control" id="departamento_usuario" name="departamento_usuario"  value="{{usuario.departamento}}" readonly>
+                </div> 
+                <div class="col-md-6">
+                    <label class="form-label">Ramal</label>
+                    <input type="text" class="form-control" id="ramal_usuario" name="ramal_usuario" value="{{usuario.ramal}}"  readonly>
+                </div> 
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status</label>
+                    <input type="text" class="form-control" value="{{usuario.status}}" readonly>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

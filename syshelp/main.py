@@ -1,5 +1,6 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,session
 from db import Session
+from datetime import timedelta
 from flask_login import LoginManager,login_user,login_required
 from dotenv import load_dotenv
 import os
@@ -8,6 +9,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
+
 
 lm = LoginManager()
 lm.init_app(app)
@@ -30,7 +34,8 @@ def login():
         user = db.query(Usuario).filter_by(email=email).first()
         
         if user.email == email and user.senha == senha:
-            login_user(user)
+            login_user(user,remember=True)
+            session.permanent = True
             return render_template('/index.html')
     return render_template('/login.html')
 

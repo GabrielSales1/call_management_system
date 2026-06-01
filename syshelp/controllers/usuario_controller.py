@@ -6,6 +6,11 @@ from models.chamado_model import *
 import io
 from fpdf import *
 
+@app.route('/usuario/perfil')
+@login_required
+def perfil_usuario():
+    return render_template('usuarios/perfil_usuario.html', usuario=current_user)
+
 @app.route('/usuario/cadastro', methods=['GET'])
 @login_required
 def cadastrar_usuario():
