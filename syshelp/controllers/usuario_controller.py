@@ -1,14 +1,29 @@
 from flask import render_template,request,redirect,url_for,make_response
 from main import app
 from db import *
+from werkzeug.utils import secure_filename
 from models.usuario_model import *
 from models.chamado_model import *
+from flask_login import current_user
 import io
+import os
 from fpdf import *
 
-@app.route('/usuario/perfil')
+@app.route('/usuario/perfil',methods=['POST','GET'])
 @login_required
 def perfil_usuario():
+    db = Session()
+    if request.method == 'POST':
+        usuario_atual: Usuario = current_user
+        foto_nome = request.files.get('foto')
+        pasta_destino = os.path.join(app.root_path, 'static', 'img')
+        if foto_nome:
+            nome_redefinido = secure_filename(foto_nome.filename)
+            pasta_destino_completo = os.path.join(pasta_destino, nome_redefinido)
+            foto_nome.save(pasta_destino_completo)
+            usuario_atual.foto = nome_redefinido
+            db.add(usuario_atual)
+            db.commit()
     return render_template('usuarios/perfil_usuario.html', usuario=current_user)
 
 @app.route('/usuario/cadastro', methods=['GET'])

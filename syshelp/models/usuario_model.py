@@ -10,6 +10,8 @@ class Usuario(Base,UserMixin):
     departamento = Column(String(50), nullable=False)
     ramal = Column(String(20), nullable=False)
     status = Column(String(20), nullable=False)
+    foto = Column(String(100),nullable=False,default='account.png')
+
 
     chamados = relationship("Chamado", back_populates="usuario")
 

@@ -124,15 +124,7 @@
                 </li>
               </ul>
           </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="lni lni-file-multiple"></i>
-              <span>Relatório</span>
-            </a>
-          </li>
         </ul>
-
         <div class="sidebar-footer">
           <a href="{{url_for('logout')}}" class="sidebar-link">
             <i class="lni lni-exit"></i>
@@ -147,7 +139,7 @@
             <ul class="navbar-nav ms-auto">
               <li class="nav-item dropdown">
                 <a href="#" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
-                  <img src="{{url_for('static', filename='img/account.png')}}" class="avatar img-fluid" alt="perfil" />
+                  <img src="{{url_for('static', filename='img/'+current_user.foto)}}" class="avatar img-fluid rounded-circle object-fit-cover shadow-sm border border-3 border-light" alt="perfil" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-end rounded">
                   <a href="{{url_for('perfil_usuario')}}" class="dropdown-item">
