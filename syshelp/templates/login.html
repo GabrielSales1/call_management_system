@@ -51,7 +51,12 @@
           <button class="btn btn-primary w-100 mb-3" type="submit">
             Entrar
           </button>
-
+          {% if msg %}
+            <div class="alert alert-danger" role="alert">
+              {{ msg }}
+            </div>
+          {% endif %}
+          
           <div class="text-center">
             <a href="#" class="text-primary link-offset-2"
               >Esqueci minha senha!</a

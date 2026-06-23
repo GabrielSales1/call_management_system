@@ -11,8 +11,6 @@ class Usuario(Base,UserMixin):
     ramal = Column(String(20), nullable=False)
     status = Column(String(20), nullable=False)
     foto = Column(String(100),nullable=False,default='account.png')
-
-
     chamados = relationship("Chamado", back_populates="usuario")
 
 Base.metadata.create_all(engine)
