@@ -103,7 +103,7 @@ Instalação e execução (local)
      mysql+pymysql://root:@localhost:3306/syshelp
    Recomenda-se:
    - Criar o banco MySQL:
-     CREATE DATABASE syshelp CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+     CREATE DATABASE syshelp;
    - Criar um usuário com permissões ou ajustar a URI para usar um usuário/senha seguros.
    - (Melhoria recomendada) alterar `db.py` para obter a URI do ambiente, por exemplo:
      DATABASE_URI = os.getenv('DATABASE_URI', 'mysql+pymysql://root:@localhost:3306/syshelp')
