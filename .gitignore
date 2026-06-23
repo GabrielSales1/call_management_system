@@ -160,6 +160,15 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Ignore the entire .vscode folder
+.vscode/
+
+# Exceptional rule: If your team shares debug tools or task settings, 
+# uncomment the specific files below to allow tracking them:
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
