@@ -116,7 +116,5 @@ Instalação e execução (local)
 
 Contato
 -------
+Email: gabrielsalesaraujo12@gmail.com
 Desenvolvedor: GabrielSales1
-
----
-Obrigado por usar/avaliar este projeto! Se quiser, eu posso ajudar a transformar estas instruções em um arquivo README.md pronto para commitar no repositório.
