@@ -165,9 +165,11 @@ cython_debug/
 
 # Exceptional rule: If your team shares debug tools or task settings, 
 # uncomment the specific files below to allow tracking them:
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/tasks.json
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/
+
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
